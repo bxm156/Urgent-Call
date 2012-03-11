@@ -35,20 +35,19 @@ public class RuleView extends View implements OnGestureListener {
 	
 	private void init() {
 		 textPaint = new Paint();
-		 textPaint.setColor(Color.BLACK);
+		 textPaint.setColor(Color.WHITE);
 		 textPaint.setStyle(Style.FILL);
 		 textPaint.setTextSize(40);
 		 textPaint.setAntiAlias(true);
 		 linePaint = new Paint();
-		 linePaint.setColor(Color.BLACK);
+		 linePaint.setColor(Color.LTGRAY);
 		 editArrow = BitmapFactory.decodeResource(getResources(), R.drawable.expander_ic_minimized);
-		 
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		canvas.drawColor(Color.LTGRAY);
+		canvas.drawColor(Color.BLACK);
 		canvas.drawText(data_.getNickname(), 10, 0 - textPaint.ascent(), textPaint);
 		canvas.drawBitmap(editArrow, getWidth()-editArrow.getWidth()-ARROW_PADDING_RIGHT, 0, null);
 		canvas.drawLine(0,0,480,0,linePaint);

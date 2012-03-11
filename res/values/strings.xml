@@ -3,7 +3,7 @@
 
     <string name="hello">Hello World, UrgentCallActivity!</string>
     <string name="app_name">UrgentCall</string>
-    <string name="add_a_rule">Add A Rule:</string>
+    <string name="add_a_rule">Add A Rule</string>
     <string name="nickname">Nickname</string>
     <string name="phone_number">Phone Number</string>
     <string name="cancel">Cancel</string>
@@ -11,5 +11,11 @@
     <string name="status">Status...</string>
     <string name="enabled">Enabled</string>
     <string name="rules">Rules...</string>
+    <string name="edit_rules">Edit Rules</string>
+    <string name="text_message">Text Message</string>
+    <string name="voice">Voice</string>
+    <string name="effective_time">Effective Time</string>
+    <string name="delete_rule">Delete Rule</string>
+    <string name="add_rule">Add Rule</string>
 
 </resources>

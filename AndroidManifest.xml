@@ -21,6 +21,9 @@ package="com.bryanmarty.urgentcall"
             </intent-filter>
         </activity>
         <service android:name="UrgentCallService"></service>
+        <activity android:name=".UrgentCallViewRulesActivity" android:screenOrientation="portrait"></activity>
+        <activity android:screenOrientation="portrait" android:name=".UrgentCallNewRuleActivity"></activity>
+        <activity android:screenOrientation="portrait" android:name=".UrgentCallEditRuleActivity"></activity>
     </application>
 
 </manifest>
