@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class UrgentCallActivity extends Activity {
@@ -14,6 +15,7 @@ public class UrgentCallActivity extends Activity {
 	private UrgentCallService boundService;
 	private boolean mIsBound;
 	private ServiceConnection mConnection = new ServiceConnection() {
+		
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        // This is called when the connection with the service has been
 	        // established, giving us the service object we can use to
@@ -61,7 +63,15 @@ public class UrgentCallActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.rules);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.rulesLinearLayout);
+        for(int x = 0; x < 20; x++) {
+	        UrgentEntry test = new UrgentEntry();
+	        test.setNickname("My Test " + x);
+	        RuleView item = new RuleView(this,test);
+	        layout.addView(item);
+        }
+        layout.invalidate();
         doBindService();
     }
 
