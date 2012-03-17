@@ -87,7 +87,7 @@ public final class RuleViewFactory {
 		context_ = context;
 	}
 	
-	public LinearLayout createRuleView(UrgentEntry data) {
+	public LinearLayout createRuleView(final UrgentEntry data) {
 		
 		LinearLayout row = new LinearLayout(context_);
 		LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,0f);
@@ -109,6 +109,7 @@ public final class RuleViewFactory {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(context_, UrgentCallEditRuleActivity.class);
+				i.putExtra("UrgentEntry", data);
 				context_.startActivity(i);
 				context_.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
