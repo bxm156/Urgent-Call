@@ -74,6 +74,27 @@ public class TrackManager {
 		return threadPool_.submit(request);
 	}
 	
+	public static Future<Boolean> updateRule(final UrgentEntry rule) {
+		TrackRequest<Boolean> request = new TrackRequest<Boolean>() {
+
+			@Override
+			public Boolean call() throws Exception {
+				SQLiteDatabase db = getDatabase();
+				ContentValues values = new ContentValues();
+				values.put("nickname",rule.getNickname());
+				values.put("phone", rule.getPhoneNumber());
+				String whereClause = "rowid = ?";
+				String[] whereArgs = { rule.getId().toString() };
+				int result = db.update("rules", values, whereClause, whereArgs);
+				return (result == 1 ? true : false);
+			}
+			
+		};
+		
+		request.setDatabase(dbManager.getDatabase());
+		return threadPool_.submit(request);
+	}
+	
 	public static Future<LinkedList<UrgentEntry>> getRuleList() {
 		TrackRequest<LinkedList<UrgentEntry>> request = new TrackRequest<LinkedList<UrgentEntry>>() {
 
@@ -81,10 +102,11 @@ public class TrackManager {
 			public LinkedList<UrgentEntry> call() throws Exception {
 				LinkedList<UrgentEntry> list = new LinkedList<UrgentEntry>();
 				SQLiteDatabase db = getDatabase();
-				String[] columns = { "nickname","phone" };
-				Cursor c = db.query("rules", columns, null, null, null, null, null);
+				String[] columns = { "rowid", "nickname","phone" };
+				Cursor c = db.query("rules", columns, null, null, null, null, "nickname ASC");
 				while (c.moveToNext()) {
 					UrgentEntry en = new UrgentEntry();
+					en.setId(c.getLong(c.getColumnIndex("rowid")));
 					en.setNickname(c.getString(c.getColumnIndex("nickname")));
 					en.setPhoneNumber(c.getString(c.getColumnIndex("phone")));
 					list.add(en);

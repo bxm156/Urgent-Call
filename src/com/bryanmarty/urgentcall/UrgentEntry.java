@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class UrgentEntry implements Parcelable {
+	private long id;
 	private String nickname;
 	private String phoneNumber;
 	private Date startDate;
@@ -16,10 +17,17 @@ public class UrgentEntry implements Parcelable {
 	}
 	
 	public UrgentEntry(Parcel in) {
+		id = in.readLong();
 		nickname = in.readString();
-		//phoneNumber = in.readString();
+		phoneNumber = in.readString();
 		//startDate = new Date(in.readLong());
 		//endDate = new Date(in.readLong());
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 	public String getNickname() {
 		return nickname;
@@ -52,8 +60,9 @@ public class UrgentEntry implements Parcelable {
 	
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeLong(id);
 		dest.writeString(nickname);
-		//dest.writeString(phoneNumber);
+		dest.writeString(phoneNumber);
 		//dest.writeLong(startDate.getTime());
 		//dest.writeLong(endDate.getTime());
 	}
