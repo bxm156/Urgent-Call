@@ -82,6 +82,7 @@ public class UrgentCallActivity extends Activity {
 				
 			}
 		});
+        TrackManager.initialize(this);
         doBindService();
     }
 
@@ -89,6 +90,7 @@ public class UrgentCallActivity extends Activity {
 	protected void onDestroy() {
 		Toast.makeText(this, "Destroying", Toast.LENGTH_SHORT);
 		doUnbindService();
+		TrackManager.shutdown();
 	}
     
     

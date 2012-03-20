@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Connection;
 
 import android.content.Context;
 import android.database.SQLException;
@@ -13,13 +14,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseManager extends SQLiteOpenHelper {
 
+	private static final int DATABASE_VERSION = 1;
 	private static final String DATABASE_NAME = "urgentCall.db";
-	private static final String DATABASE_PATH = "/data/data/com.bryanmarty.urgentcall/database/";
+	private static final String DATABASE_PATH = "/data/data/com.bryanmarty.urgentcall/databases/";
 	private Context context_;
 	private SQLiteDatabase db_;
 
 	public DatabaseManager(Context context) {
-		super(context, DATABASE_PATH, null, 1);
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		context_ = context;
 	}
 
@@ -40,16 +42,21 @@ public class DatabaseManager extends SQLiteOpenHelper {
 			// the default system path
 			// of your application so we are gonna be able to overwrite that
 			// database with our database.
-			this.getReadableDatabase();
+			SQLiteDatabase db_Read; 
 
 			try {
+				db_Read = getReadableDatabase();
 				copyDataBase();
 			} catch (IOException e) {
 				throw new Error("Error copying database");
 			}
+			
+			if(db_Read != null) {
+				db_Read.close();
+			}
 		}
 		
-		this.close();
+		
 
 	}
 
@@ -119,7 +126,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 	}
 
-	public synchronized void openDataBase() throws SQLException {
+	public synchronized SQLiteDatabase openDataBase() throws SQLException {
 		try {
 			// Open the database
 			String myPath = DATABASE_PATH + DATABASE_NAME;
@@ -129,8 +136,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			db_ = null;
 		}
-		return;
+		return db_;
+	}
+	
+	public SQLiteDatabase getDatabase() {
+		return db_;
 	}
 
 	@Override
