@@ -3,8 +3,14 @@ package com.bryanmarty.urgentcall;
 import java.util.Calendar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -18,6 +24,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TimePicker;
 
 public class TimeRuleFactory {
 	
@@ -54,23 +61,62 @@ public class TimeRuleFactory {
 		
 		row.setOrientation(LinearLayout.HORIZONTAL);
 		
-		Button dateButton = new Button(context_);
-		dateButton.setText("Time");
+		final Button dateButton = new Button(context_);
+		dateButton.setText("Weekday");
 		dateButton.setOnClickListener(new OnClickListener() {
 		
 			@Override
 			public void onClick(View v) {
-				Calendar cal = Calendar.getInstance();
-				DatePickerDialog datePickDiag = new DatePickerDialog(context_, dateListener, cal.get(Calendar.YEAR),
-						cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-				datePickDiag.show();
+				final CharSequence[] items = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+				AlertDialog.Builder builder = new AlertDialog.Builder(context_);
+				builder.setTitle("Pick a day");
+				builder.setItems(items, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dateButton.setText(items[which]);
+						
+					}
+				});
 				
+				AlertDialog alert = builder.create();
+				alert.show();
+			}
+		});
+		
+		final Button timeButton = new Button(context_);
+		timeButton.setText("Time");
+		timeButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Calendar cal = Calendar.getInstance();
+				final OnTimeSetListener listener = new OnTimeSetListener() {
+					
+					@Override
+					public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+						timeButton.setText( hourOfDay + " " + minute);
+						
+					}
+				};
+				TimePickerDialog d = new TimePickerDialog(context_, listener, cal.get(Calendar.HOUR_OF_DAY),
+					cal.get(Calendar.MINUTE), false);
+				d.show();
 				
 			}
 		});
 		
 		row.addView(dateButton);
+		row.addView(timeButton);
 		
 		return row;
+	}
+	
+	public static Dialog createTimePickerDialog() {
+		Context mContext = context_.getApplicationContext();
+		Dialog dialog = new Dialog(mContext);
+		dialog.setContentView(1);
+		dialog.setTitle("Pick A Time");
+		return dialog;
 	}
 }
