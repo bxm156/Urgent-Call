@@ -3,11 +3,14 @@ package com.bryanmarty.urgentcall;
 import java.util.concurrent.Future;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,19 @@ public class UrgentCallNewRuleActivity extends Activity {
 				}
 				Toast.makeText(getContext(), text, Toast.LENGTH_LONG);
 				onBackPressed();
+			}
+		});
+		
+		ImageButton newTime = (ImageButton) findViewById(R.id.add_new_time);
+		newTime.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TimeRuleFactory.getInstance(UrgentCallNewRuleActivity.this);
+				LinearLayout list = (LinearLayout) findViewById(R.id.add_time_rule_list);
+				list.addView(TimeRuleFactory.createTimeRuleView());
+				
+				
 			}
 		});
 	}
